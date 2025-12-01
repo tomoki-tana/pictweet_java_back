@@ -13,12 +13,13 @@ import in.tech_camp.pictweet.entity.CommentEntity;
 
 @Mapper
 public interface CommentRepository {
-    @Select("SELECT c.*, u.id AS user_id, u.nickname AS user_nickname FROM comments c JOIN users u ON c.user_id = u.id WHERE c.tweet_id = #{tweetId}")
+    @Select(
+      "SELECT c.*, u.id AS user_id, u.nickname AS user_nickname "
+    + "FROM comments c JOIN users u ON c.user_id = u.id "
+    + "WHERE c.tweet_id = #{tweetId}")
     @Results(value = {
       @Result(property = "user.id", column = "user_id"),
-      @Result(property = "user.nickname", column = "user_nickname"),
-      @Result(property = "tweet", column = "tweet_id", 
-              one = @One(select = "in.tech_camp.pictweet.repository.TweetRepository.findById"))
+      @Result(property = "user.nickname", column = "user_nickname")
     })
     List<CommentEntity> findByTweetId(Integer tweetId);
 
